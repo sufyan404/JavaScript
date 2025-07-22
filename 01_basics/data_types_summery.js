@@ -37,9 +37,36 @@ const myFunc = function(){
 }
 myFunc()
 
-console.log(typeof myFunc);
-console.log(typeof heros);
+// console.log(typeof myFunc);
+// console.log(typeof heros);
 
+// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+// Stack vs Heap Memory
+
+// Stack Memory (Primitive Types) Heap Memory (Reference Types or Non Primitive Types)
+
+let myInsta = "TradingWizards";
+
+let myYoutube = myInsta;
+myYoutube = "Loki TVA";
+
+console.log(myInsta);
+console.log(myYoutube);
+
+
+let user = {
+    email: "user@google.com",
+    userId: 1234,
+}
+
+let user2 = user;
+
+user2.email = "myemail@google.com"
+
+console.log(user.email);
+console.log(user2.email);
 
 
 

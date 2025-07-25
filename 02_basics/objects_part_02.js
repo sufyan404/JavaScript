@@ -57,13 +57,22 @@ const course = {
     duration: '3 weeks',
     price: "99.99"
 }
-
 const {title} = course 
 console.log(title);
 
 
 
-const navBar = () => {
+const navBar = ({company}) => {
 
 }
+navBar(company = 'Google') 
+
+// ++++++++++++++++ JSON  +++++++++++++++
+// {
+//     "name": "Ali",
+//     "age": 30,
+//     "location": 'Lahore'
+// }
+
+
 

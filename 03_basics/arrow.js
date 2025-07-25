@@ -31,6 +31,24 @@ const chai = () => {
     // console.log(this);  //     DOES NOT WORK IN ARROW
     
 }
-chai()
+chai();
 
 
+
+// const addTwo = (num1, num2) => {
+//  return num1 + num2
+// }
+ 
+//  +++++++       IMPLICIT RETURN      ++++++++++
+
+// const addTwo = (num1, num2) => num1 + num2
+// const addTwo = (num1, num2) => (num1 + num2)
+// const addTwo = (num1, num2) => ({username: "ali"}) // objet 
+
+// console.log(addTwo(2, 2));
+
+
+
+const arr = [1, 2, 3, 4, 5]
+
+arr.forEach(()=>{})

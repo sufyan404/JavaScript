@@ -47,7 +47,23 @@ const users = [
 // console.log(Object.keys(user));
 // console.log(Object.values(user));
 // console.log(Object.entries(user));
-
 // console.log(user.hasOwnProperty('location'));
 
+
+//  +++++++++++++   Destructuring Objects   +++++++++++++
+
+const course = {
+    title: 'JavaScript Basics',
+    duration: '3 weeks',
+    price: "99.99"
+}
+
+const {title} = course 
+console.log(title);
+
+
+
+const navBar = () => {
+
+}
 

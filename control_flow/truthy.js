@@ -33,3 +33,10 @@ if (email) {
 //  ture, "0", "false", " ", [], {}, function(){}
 
 
+if (email.length === 0) {
+    console.log('empty array');
+}
+
+if (Object.keys(data).length === 0) {
+    console.log('empty object');
+}

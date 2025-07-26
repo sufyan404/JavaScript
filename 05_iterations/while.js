@@ -14,3 +14,9 @@ while (index < arr.length) {
 }
 
 
+
+let score = 21
+do {
+    console.log(`score is:   ${score}`);
+    score++
+} while (score <= 20);

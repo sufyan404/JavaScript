@@ -33,10 +33,32 @@ if (score > 50) {
 
 // shorthand notation 
  
-// if (balance = 100) console.log('test');
+// if (true) console.log('test');
 
-// if (balance = 100) console.log('test'),
+// if (true) console.log('test'),
 // console.log('test 2');   // same scope with comma, but not readable code
 
 
+const balance = 300
 
+if (balance < 100) {
+    // console.log('less than 100');
+} else if (balance < 200){
+    // console.log('less than 100');
+} else {
+    // console.log('less than 400');
+}
+
+
+const userLoggedIn = true
+const card = true
+const email = false
+const google = true
+
+if (userLoggedIn && card ) {
+    // console.log('allowd');
+}
+
+if (email || google) {
+    console.log('welcome')
+}

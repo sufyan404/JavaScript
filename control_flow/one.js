@@ -31,3 +31,12 @@ if (score > 50) {
 }
 
 
+// shorthand notation 
+ 
+// if (balance = 100) console.log('test');
+
+// if (balance = 100) console.log('test'),
+// console.log('test 2');   // same scope with comma, but not readable code
+
+
+

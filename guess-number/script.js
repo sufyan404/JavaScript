@@ -43,11 +43,20 @@ function validateGuess(guess) {
 }
 
 function checkGuess(guess) {
-    
+    if (guess === randomNumber) {
+        displayMessage(`You gussed it right`)
+        endGame()
+    } else if (guess < randomNumber){
+       displayMessage(`Number is low`)
+    } else if (guess > randomNumber){
+       displayMessage(`Number is high`)
+    }
 }
 
 function displayGuess(guess) {
-    
+    userInput.value = ''
+    guessSlot.innerHTML += `${guess}`
+    numGuess++
 }
 
 function displayMessage(message) {

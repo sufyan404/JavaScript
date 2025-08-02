@@ -1,4 +1,4 @@
-const randomNumber = parseInt((Math.random()*10 + 1)) 
+let randomNumber = parseInt((Math.random()*10 + 1)) 
  
 const submit = document.querySelector('#subt')
 const userInput = document.querySelector('#guessField')
@@ -25,13 +25,16 @@ if (playGame) {
 function validateGuess(guess) {
     if (isNaN(guess)) {
         alert("Please enter a velid number")
+        userInput.value = ''
     } else if (guess < 1 ){
         alert('Please enter a number bigger than one')
+        userInput.value = ''
     } else if (guess > 100 ){
         alert('Please enter a number less than 100')
+        userInput.value = ''
     } else {
         prevGuess.push(guess)
-        if (numGuess > 10) {
+        if (numGuess === 10) {
             displayGuess(guess)
             displayMessage(`Game over: Random number is ${randomNumber}`)
             endGame()
@@ -55,20 +58,39 @@ function checkGuess(guess) {
 
 function displayGuess(guess) {
     userInput.value = ''
-    guessSlot.innerHTML += `${guess}`
+    guessSlot.innerHTML += `${guess} `
     numGuess++
+    remaining.innerHTML = `${11 - numGuess} `
 }
 
 function displayMessage(message) {
-    
+    lowOrHigh.innerHTML = `<h2>${message}</h2>`
 }
 
 function endGame() {
-    
+    userInput.value = ""
+    userInput.setAttribute('disabled', '')
+    p.classList.add('button')
+    p.innerHTML = `<h2 id="newGame">Start Again</h2>`
+    startOver.appendChild(p)
+    playGame = false
+    newGame()
 }
 
 function newGame() {
-    
+   const newGameButton = document.querySelector('#newGame')
+   newGameButton.addEventListener("click", (e)=>{
+         e.preventDefault()
+         userInput.value = ''
+         randomNumber = parseInt((Math.random()*10 + 1)) 
+         prevGuess = []
+         numGuess = 1
+         guessSlot.innerHTML = ''
+         remaining.innerHTML = `${11 - numGuess} `
+         userInput.removeAttribute('disabled')
+         startOver.removeChild(p)
+         playGame = true
+   })
 }
 
 

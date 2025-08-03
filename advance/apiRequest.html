@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>AJAX</title>
+    <style>
+        .card {
+            border: 1px solid black;
+            height: 28rem;
+            width: 20rem;
+            background-color: rgb(243, 239, 233);
+            margin: auto;
+            margin-top: 60px;
+        }
+    </style>
+</head>
+<body>
+    <div class="card"></div>
+</body>
+<script>
+    const requestURL = 'https://api.github.com/users/hiteshchoudhary'
+    const request = new XMLHttpRequest()
+    let userData = null;
+    let showingDetails = false;
+
+    request.open('GET', requestURL)
+    request.onreadystatechange = function(){
+        console.log(request.readyState);
+        if (request.readyState === 4) {
+            if (request.status === 200) {
+                userData = JSON.parse(this.responseText)
+                console.log(userData.followers);
+                displayBasicCard();
+            } else {
+                displayError();
+            }
+        }
+    }
+    request.send()
+
+    const cardElement = document.querySelector('.card');
+
+    function displayBasicCard() {
+        // Clear existing content
+        cardElement.innerHTML = '';
+        
+        // Create and style profile image
+        const profileImg = document.createElement('img');
+        profileImg.src = userData.avatar_url;
+        profileImg.alt = userData.name || userData.login;
+        profileImg.style.width = '80px';
+        profileImg.style.height = '80px';
+        profileImg.style.borderRadius = '50%';
+        profileImg.style.display = 'block';
+        profileImg.style.margin = '20px auto 15px auto';
+        profileImg.style.border = '2px solid #333';
+        
+        // Create and style name
+        const nameElement = document.createElement('h3');
+        nameElement.textContent = userData.name || userData.login;
+        nameElement.style.textAlign = 'center';
+        nameElement.style.margin = '0 0 15px 0';
+        nameElement.style.fontSize = '16px';
+        nameElement.style.color = '#333';
+        nameElement.style.fontFamily = 'Arial, sans-serif';
+        
+        // Create and style username
+        const usernameElement = document.createElement('p');
+        usernameElement.textContent = `@${userData.login}`;
+        usernameElement.style.textAlign = 'center';
+        usernameElement.style.margin = '0 0 20px 0';
+        usernameElement.style.fontSize = '14px';
+        usernameElement.style.color = '#666';
+        usernameElement.style.fontFamily = 'Arial, sans-serif';
+        
+        // Create and style button
+        const detailsBtn = document.createElement('button');
+        detailsBtn.textContent = 'More Details';
+        detailsBtn.style.display = 'block';
+        detailsBtn.style.margin = '0 auto';
+        detailsBtn.style.padding = '8px 16px';
+        detailsBtn.style.backgroundColor = '#007bff';
+        detailsBtn.style.color = 'white';
+        detailsBtn.style.border = 'none';
+        detailsBtn.style.borderRadius = '4px';
+        detailsBtn.style.cursor = 'pointer';
+        detailsBtn.style.fontSize = '14px';
+        detailsBtn.style.fontFamily = 'Arial, sans-serif';
+        
+        // Add hover effect
+        detailsBtn.onmouseover = function() {
+            this.style.backgroundColor = '#0056b3';
+        };
+        detailsBtn.onmouseout = function() {
+            this.style.backgroundColor = '#007bff';
+        };
+        
+        // Add click event
+        detailsBtn.onclick = function() {
+            if (!showingDetails) {
+                displayDetailedCard();
+            } else {
+                displayBasicCard();
+            }
+        };
+        
+        // Append elements to card
+        cardElement.appendChild(profileImg);
+        cardElement.appendChild(nameElement);
+        cardElement.appendChild(usernameElement);
+        cardElement.appendChild(detailsBtn);
+        
+        showingDetails = false;
+    }
+
+    function displayDetailedCard() {
+        // Clear existing content
+        cardElement.innerHTML = '';
+        
+        // Create container for scrollable content
+        const container = document.createElement('div');
+        container.style.padding = '15px';
+        container.style.height = '100%';
+        container.style.boxSizing = 'border-box';
+        container.style.overflow = 'auto';
+        container.style.fontFamily = 'Arial, sans-serif';
+        
+        // Create and style smaller profile image
+        const profileImg = document.createElement('img');
+        profileImg.src = userData.avatar_url;
+        profileImg.alt = userData.name || userData.login;
+        profileImg.style.width = '50px';
+        profileImg.style.height = '50px';
+        profileImg.style.borderRadius = '50%';
+        profileImg.style.display = 'block';
+        profileImg.style.margin = '0 auto 10px auto';
+        profileImg.style.border = '1px solid #333';
+        
+        // Create name
+        const nameElement = document.createElement('h4');
+        nameElement.textContent = userData.name || userData.login;
+        nameElement.style.textAlign = 'center';
+        nameElement.style.margin = '0 0 10px 0';
+        nameElement.style.fontSize = '14px';
+        nameElement.style.color = '#333';
+        
+        // Create details list
+        const detailsList = document.createElement('div');
+        detailsList.style.fontSize = '12px';
+        detailsList.style.lineHeight = '1.4';
+        detailsList.style.color = '#444';
+        
+        const details = [
+            { label: 'Username', value: userData.login },
+            { label: 'Followers', value: userData.followers?.toLocaleString() || 'N/A' },
+            { label: 'Following', value: userData.following?.toLocaleString() || 'N/A' },
+            { label: 'Public Repos', value: userData.public_repos || 'N/A' },
+            { label: 'Location', value: userData.location || 'N/A' },
+            { label: 'Company', value: userData.company || 'N/A' },
+            { label: 'Blog', value: userData.blog || 'N/A' },
+            { label: 'Twitter', value: userData.twitter_username ? `@${userData.twitter_username}` : 'N/A' }
+        ];
+        
+        details.forEach(detail => {
+            const detailElement = document.createElement('div');
+            detailElement.style.marginBottom = '5px';
+            detailElement.innerHTML = `<strong>${detail.label}:</strong> ${detail.value}`;
+            detailsList.appendChild(detailElement);
+        });
+        
+        // Create bio if available
+        if (userData.bio) {
+            const bioElement = document.createElement('div');
+            bioElement.style.marginTop = '10px';
+            bioElement.style.padding = '8px';
+            bioElement.style.backgroundColor = 'rgba(255,255,255,0.5)';
+            bioElement.style.borderRadius = '4px';
+            bioElement.style.fontSize = '11px';
+            bioElement.innerHTML = `<strong>Bio:</strong> ${userData.bio}`;
+            detailsList.appendChild(bioElement);
+        }
+        
+        // Create back button
+        const backBtn = document.createElement('button');
+        backBtn.textContent = 'Show Less';
+        backBtn.style.display = 'block';
+        backBtn.style.margin = '15px auto 0 auto';
+        backBtn.style.padding = '6px 12px';
+        backBtn.style.backgroundColor = '#6c757d';
+        backBtn.style.color = 'white';
+        backBtn.style.border = 'none';
+        backBtn.style.borderRadius = '4px';
+        backBtn.style.cursor = 'pointer';
+        backBtn.style.fontSize = '12px';
+        
+        // Add hover effect
+        backBtn.onmouseover = function() {
+            this.style.backgroundColor = '#545b62';
+        };
+        backBtn.onmouseout = function() {
+            this.style.backgroundColor = '#6c757d';
+        };
+        
+        // Add click event
+        backBtn.onclick = function() {
+            displayBasicCard();
+        };
+        
+        // Append elements to container
+        container.appendChild(profileImg);
+        container.appendChild(nameElement);
+        container.appendChild(detailsList);
+        container.appendChild(backBtn);
+        
+        // Append container to card
+        cardElement.appendChild(container);
+        
+        showingDetails = true;
+    }
+
+    function displayError() {
+        cardElement.innerHTML = '';
+        
+        const errorElement = document.createElement('div');
+        errorElement.style.padding = '20px';
+        errorElement.style.textAlign = 'center';
+        errorElement.style.color = '#dc3545';
+        errorElement.style.fontFamily = 'Arial, sans-serif';
+        errorElement.innerHTML = '<h4>Error!</h4><p>Failed to load user data.</p>';
+        
+        cardElement.appendChild(errorElement);
+    }
+
+    // Show loading state initially
+    cardElement.innerHTML = '<div style="padding: 20px; text-align: center; font-family: Arial, sans-serif; color: #666;">Loading...</div>';
+</script>
+</html>
